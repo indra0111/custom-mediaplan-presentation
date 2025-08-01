@@ -12,6 +12,9 @@ from genai_mediaplan.utils.update_charts import update_charts_in_slides
 from genai_mediaplan.utils.persona import update_persona_content
 from genai_mediaplan.utils.definition_slide import update_definition_reach
 from genai_mediaplan.utils.geo import update_forecast_for_geo
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
 
 # Set up credentials
 # SERVICE_ACCOUNT_FILE = 'service_account.json'
