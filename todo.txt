@@ -1,0 +1,18 @@
+Input:
+{
+  "email_subject": "Need audience data",
+  "email_body": "Need data for working professionals aged 20-35 working primarily in IT and health services sector staying primarily in Tier 1, Tier 2, Tier 3, Top 8 and Top 10 cities as well as Maharashtra, Telangana, Karnataka and Andhra Pradesh, for the publishers TOI and NBT Standard banner",
+  "abvrs": "2ws,6ef,6eg,6yi,7dn,9r0,9r1,9r2,buq,pv1,pv4,pvn",
+  "forecast_data": {"TIL_All_Cluster_RNF":{"Tier1 Cities":{"user":38.31,"impr":174.23},"Tier2 Cities":{"user":43.07,"impr":167.53},"Tier3":{"user":26.7,"impr":105.27},"Top 8 Metro Cities":{"user":38.33,"impr":174.16},"Top 10 Cities":{"user":39.99,"impr":180.18},"Maharashtra":{"user":14.55,"impr":71.83},"Telangana":{"user":6.83,"impr":30.61},"Karnataka":{"user":9.95,"impr":50.45},"India":{"user":2.44,"impr":11.19}}}
+}
+Output:
+{
+  "status": "success",
+  "message": "Presentation generated successfully from email: Need audience data",
+  "email_subject": "Need audience data",
+  "google_slides_url": "https://drive.google.com/file/d/1i05BcZqJy3HrFmKa10OwSL1pttfKDW_0obr9Tw3Msjg",
+  "error": null
+}
+
+
+edit name for location group

@@ -1,0 +1,335 @@
+title_task:
+  description: >
+    Generate a title for a presentation where sales and marketing teams will present the media plan to the client. The title should be generated based on the email subject '{email_subject}' and body content '{email_body}' and it should be completely relevant to the email.
+    The title should be a single, coherent statement that captures the essence of the email and its potential for a media campaign.
+    Use a professional, client-facing tone. Output only the required JSON object, with no extra text or commentary.
+    Before submitting, ensure:
+      1) The title is a single, coherent statement that captures the essence of the email and its potential for a media campaign,
+      2) The output is a valid JSON object as per the example,
+      3) No extra text is included.
+      4) The title should be in maximum 20 characters.
+  expected_output: >
+    A json object in the following format:
+    {
+      "title": "Title"
+    }
+    example:
+      {
+        "title": "Q4 Marketing Campaign Performance Review"
+      }
+  agent: title_agent
+
+definition_task:
+  description: >
+    Craft a compelling and precise 3-line presentation description based on the email subject '{email_subject}' and body content '{email_body}'.
+    The description must be suitable for a client-facing business presentation.
+    Summarize the key business context, highlight the main objectives and insights from the email, and emphasize the strategic value for stakeholders.
+    Use persuasive, data-driven, and professional language. Avoid generic statements and repetition.
+    Output only the JSON object, with no extra text or commentary.
+    Before submitting, ensure:
+      1) The description has maximum 450 characters,
+      2) All key topics and action items from the email are referenced,
+      3) The tone is professional and client-facing,
+      4) The output is a valid JSON object as per the example,
+      5) No extra text is included.
+  expected_output: >
+    A description introducing the presentation context, referencing all key topics and action items from the email.
+    The output should be a json object in the following format:
+    {
+      "cohort_definition": "A description introducing the presentation context, referencing all key topics and action items from the email."
+    }
+    example:
+      {
+        "cohort_definition": "Q4 Marketing Campaign Performance Review presents comprehensive analysis of digital marketing initiatives with 15% conversion rate improvement and $2.5M revenue generation. This presentation showcases strategic insights from social media campaigns (40% engagement), email marketing (22% open rate), and paid advertising (3.2x ROI) to inform future campaign optimization and budget allocation decisions."
+      }
+  agent: definition_agent
+
+data_signals_task:
+  description: >
+    Based on the email subject '{email_subject}' and body content '{email_body}', identify and create 3 distinct categories of actionable business insights. Use the audience data '{audience_data}' to identify the relevant metrics and segments.
+    Each category must cover a different business dimension (e.g., performance metrics, strategic initiatives, market opportunities).
+    For each category, provide a descriptive title (max 40 chars, with emoji) and a list of 5 specific, high-value, actionable insights (max 60 chars each).
+    Each insight must be actionable and specific, not generic. Use a professional, client-facing tone.
+    Output only the JSON array, with no extra text or commentary.
+    Before submitting, ensure:
+      1) There are 3 categories, each with a unique title and 5 insights,
+      2) Titles start with an emoji and are under 40 characters,
+      3) Each insight is under 60 characters and actionable,
+      4) The output is a valid JSON array as per the example,
+      5) No extra text is included.
+      6) The title should strictly include only one emoji and that too should be its first character.
+  expected_output: >
+    A json object in the following format:
+    {
+    "data_signals": [
+        {
+          "title": "Business Insight Title",
+          "data_signals": ["Business Insight A", "Business Insight B", "Business Insight C", "Business Insight D", "Business Insight E"]
+        },
+        {
+          "title": "Business Insight Title2",
+          "data_signals": ["Business Insight F", "Business Insight G", "Business Insight H", "Business Insight I", "Business Insight J"]
+        },
+        {
+          "title": "Business Insight Title3",
+          "data_signals": ["Business Insight K", "Business Insight L", "Business Insight M", "Business Insight N", "Business Insight O"]
+        }
+      ]
+    }
+    example:
+      {
+      "data_signals": [
+        {
+          "title": "📊 Performance Metrics",
+          "data_signals": ["15% conversion rate improvement", "25% customer acquisition growth", "$2.5M revenue generation", "40% social media engagement", "3.2x paid advertising ROI"]
+        },
+        {
+          "title": "🎯 Strategic Initiatives",
+          "data_signals": ["Scale campaigns to new markets", "Optimize budget allocation", "Implement A/B testing", "Enhance creative assets", "Expand target audience reach"]
+        },
+        {
+          "title": "📈 Market Opportunities",
+          "data_signals": ["Email marketing optimization", "Social media expansion", "Paid advertising scaling", "Customer retention focus", "Cross-channel integration"]
+        }
+      ]
+    }
+  agent: data_signals_agent
+
+persona_task:
+  description: >
+
+    Based on the email subject '{email_subject}' and body content '{email_body}', your task is to generate a detailed stakeholder analysis. Use the audience data '{audience_data}' to identify the relevant metrics and segments.
+    The output must be a single JSON object with a root key named "personas". This key will contain an array of exactly 6 highly differentiated stakeholder persona objects.
+
+    For each of the 6 persona objects in the array, you must include:
+    1.  'title': A memorable, descriptive title (max 35 chars). The title should start with an emoji. There should strictly be only one emoji in the title.
+    2.  'description': An actionable description of the stakeholder's role and business impact (max 85 chars).
+    3.  'segments': An integer representing the number of business units or teams this stakeholder represents.
+    4.  'target_profiles': A list of 4 specific stakeholder profiles that can be used for business targeting (e.g., 'Marketing Managers', 'Sales Directors') related to the persona. The total count of characters in the target_profiles should be less than 130.
+
+    CRITICAL: Ensure the tone is professional and client-facing. Adhere strictly to all constraints. Your final output must ONLY be the raw JSON object, without any surrounding text, markdown, or explanations.
+
+  expected_output: >
+    The output should be a json object in the following format:
+    {
+      "personas": [
+        {
+      "title": "Persona Title",
+      "description": "Persona Description",
+      "segments": nof of segments in the persona,
+      "target_profiles": list of 4 target profiles
+      }]
+    }
+    example:
+      {
+      "personas": [
+        {
+          "title": "📝 Education & Training Enthusiasts",
+          "description": "Users reading about education, training, admissions, and exams with education apps",
+          "segments": 8,
+          "target_profiles": ["Competitive Exam Preparation Candidates (UPSC, NEET, JEE, CAT, etc.)", "Skill Enhancement Course Participants", "University Admission Aspirants (Domestic & International)", "Online Certification & MOOC Learners"]
+        },
+        {
+          "title": "📚 Academic App Users",
+          "description": "Students using educational apps like BYJU's, Khan Academy, and exam preparation tools",
+          "segments": 12,
+          "target_profiles": [
+            "K-12 eLearning Platform Users (BYJU’s, Toppr, Vedantu)",
+            "Test Prep App Users (Unacademy, Gradeup, Adda247)",
+            "Interactive STEM Learners (Khan Academy, PhET, GeoGebra)",
+            "Adaptive Learning System Participants"
+          ]
+        },
+        {
+          "title": "🌐 Education Site Visitors",
+          "description": "Students using educational apps like BYJU's, Khan Academy, and exam preparation tools",
+          "segments": 12,
+          "target_profiles": [
+            "College Admission Information Seekers",
+            "Career Guidance Article Readers",
+            "Course Comparison and Review Browsers",
+            "Trending Education News Consumers"
+          ]
+        },
+        {
+          "title": "🎓 Young Academic Minds",
+          "description": "Youth segment with recent activity in educational content and career planning",
+          "segments": 8,
+          "target_profiles": [
+            "Senior Secondary Students (Grades 10–12)",
+            "Foundation Program Students (Maths, Science, English)",
+            "Career Planning & Stream Selection Explorers",
+            "Early Mentorship & Counseling Program Participants"
+          ]
+        },
+        {
+          "title": "🏆 Graduate Demographics",
+          "description": "12th grade students, graduates, and diploma holders seeking career advancement",
+          "segments": 8,
+          "target_profiles": [
+            "Polytechnic and Diploma Holders",
+            "12th Pass Career Planners (Vocational/Academic)",
+            "Open & Distance Learning Candidates",
+            "Job-Oriented Certification Course Seekers"
+          ]
+        },
+        {
+          "title": "🌍 Study Abroad Aspirants",
+          "description": "Students interested in pursuing international education opportunities",
+          "segments": 1,
+          "target_profiles": [
+            "Undergraduate Study Abroad Applicants (US, Canada, Europe, Australia)",
+            "Graduate Program Seekers (MS, MBA, LLM, PhD)",
+            "Language Test Prep Candidates (IELTS, TOEFL, Duolingo English Test)",
+            "Exchange Program & Pathway Program Participants"
+          ]
+        }
+      ]
+    }
+  agent: persona_agent
+
+insight_task:
+  description: >
+    Analyze the email subject '{email_subject}' and body content '{email_body}' to uncover 4 strategic, business-focused insights. Use the audience data '{audience_data}' to identify the relevant metrics and segments.
+    Each insight must go beyond a simple data point; it should reveal an opportunity or a key business behavior that stakeholders can leverage.
+    Frame each insight with a punchy title (max 23 chars, with emoji) and a description (max 235 chars) that clearly states the finding AND its strategic implication for business decisions.
+    Each insight must reveal a strategic opportunity, not just a data point. Use a professional, client-facing tone.
+    Output only the JSON array, with no extra text or commentary.
+    Before submitting, ensure:
+      1) There are 4 insights, each with a unique title (with emoji),
+      2) The title should strictly start with and include only one emoji
+      3) Each description is under 235 characters and actionable,
+      4) The output is a valid JSON array as per the example,
+      5) No extra text is included.
+  expected_output: >
+    A json object in the following format:
+    {
+      "insights": [
+        {
+          "title": "Insight Title",
+          "description": "Insight Description"
+        }
+      ]
+    }
+    There should be only 2 keys: title and description in each object of the list.
+    example:
+      {
+      "insights": [
+        {
+          "title": "🎯 Prime Demographics",
+          "description": "77% of audience under 35 represents peak education and career development phase, ensuring high engagement with learning and growth-focused brands."
+        },
+        {
+          "title": "📈 Verified Intent",
+          "description": "Multi-signal targeting through app usage, content consumption, and search behavior provides 3x higher intent verification than traditional demographics alone."
+        },
+        {
+          "title": "🏆 Premium Scale",
+          "description": "54.91M unique users with 164.73M monthly impressions delivers unmatched scale for education-focused campaigns in India's digital landscape."
+        }
+      ]
+    }
+  agent: insight_agent
+
+market_edge_synthesizer_task:
+  description: >
+    Synthesize the insights, personas, and recommendations into a single, coherent business value proposition for the email content. The email information will be useful to generate the market edge.
+    The market edge should be a single, coherent statement that captures the essence of the business context and its potential for strategic decision-making. Make sure the number of characters in the market edge is less than 275.
+    Use a professional, client-facing tone. Output only the required JSON object, with no extra text or commentary.
+  expected_output: >
+    A json object in the following format:
+    {
+      "market_edge": "Market Edge Description"
+    }
+    example:
+      {
+        "market_edge": "Our College Students cohort combines Times of India's mass English reach with Economic Times' premium business audience, creating India's most comprehensive education-intent targeting solution across 32 distinct segments with verified behavioral signals."
+      }
+  agent: market_edge_synthesizer_agent
+
+recommendation_task:
+  description: >
+    Based on the email insights and business indicators, write 4 tactical business strategy recommendations for addressing the email content. Use the audience data '{audience_data}' to identify the relevant metrics and segments. The email information will be useful to generate the recommendations. Each recommendation must be tactical, actionable, and directly reference cohort data. The title should have maximum 100 characters. The description should be a 1-2 line description of the recommendation with maximum 245 characters. Avoid generic advice; tie each recommendation to a specific metric, persona, or insight. Use a professional, client-facing tone. Output only the JSON array, with no extra text or commentary. Before submitting, ensure: 1) There are 4 recommendations, each with a unique title, 2) Each description is under 245 characters and actionable, 3) The output is a valid JSON array as per the example, 4) No extra text is included, 5) Make sure not to include the keys from the audience segments data in the recommendations and also avoid using emoji in the title.
+  expected_output: >
+    A bullet list of 4 actionable media planning suggestions, referencing all available metrics and segments.
+    The output should be a json object in the following format:
+    {
+      "recommendations": [
+      "title": "Recommendation Title",
+      "description": "Recommendation Description"
+        }
+      ]
+    }
+    There should be only 2 keys: title and description in each object of the list.
+    example:
+      {
+      "recommendations": [
+        { 
+        "title": "Launch with All Cluster Strategy",
+        "description": "Maximize reach with comprehensive TIL network approach for 54.91M users and 164.73M impressions. Ideal for large-scale education campaigns requiring maximum visibility across all demographics."
+      },
+      {
+        "title": "Target Maharashtra & Karnataka for Premium ROI",
+        "description": "Focus initial campaigns on Maharashtra (8.29M reach) and Karnataka (5.92M reach) where education spending power and tech-savvy student population drive highest conversion rates."
+      },
+      {
+        "title": "Leverage Multi-Persona Messaging",
+        "description": "Create targeted creative variants for top 3 personas: Education & Training Enthusiasts (8 segments), Academic App Users (12 segments), and Young Academic Minds (4 segments) for maximum relevance."
+      },
+      {
+        "title": "Implement Intent-Based Campaign Optimization",
+        "description": "Use our unique education app behavior and content consumption signals to optimize campaign delivery in real-time, ensuring ads reach users during peak learning and decision-making moments."
+      }
+      ]
+    }
+  agent: recommendation_agent
+
+formatting_task:
+  description: >
+    Your task is to assemble the outputs from all previous agents into a single, clean JSON object.
+    Before finalizing, perform a quality check: ensure all text adheres to the specified character limits and that the tone is consistent and professional throughout.
+    Verify that the personas, insights, and recommendations are logically connected and directly relevant to the email content and its definition.
+    Double-check that all nested objects/arrays match the required format and that all text is within limits. Output only the final JSON object, with no extra text or commentary. The final JSON must be perfectly structured according to the provided format, ready for automated processing.
+    Before submitting, ensure:
+      1) All keys are present and correctly named,
+      2) All text is within specified limits,
+      3) The tone is consistent and professional,
+      4) The output is a valid JSON object as per the example,
+      5) No extra text is included.
+  expected_output: >
+    A well-structured JSON output ready for programmatic insertion into Google Slides.
+    The output should be a json object in the following format:
+    {
+      "title": "Title",
+      "cohort_definition": "A 3-line description introducing the cohort, referencing all key metrics and segments.",
+      "data_signals": [
+        {
+          "title": "Data Signal Title",
+          "data_signals": ["Data Signal A", "Data Signal B", "Data Signal C", "Data Signal D", "Data Signal E"]
+        }
+      ],
+      "personas": [
+        {
+          "title": "Persona Title",
+          "description": "Persona Description",
+          "segments": number of segments in the persona,
+          "target_profiles": ["target profile 1", "target profile 2", "target profile 3", "target profile 4", "target profile 5", "target profile 6"]
+        }
+      ],
+      "insights": [
+        {
+          "title": "Insight Title",
+          "description": "Insight Description"
+        }
+      ],
+      "market_edge": "Market Edge Description",
+      "recommendations": [
+        {
+          "title": "Recommendation Title",
+          "description": "Recommendation Description"
+        }
+      ]
+    }
+  agent: formatter_agent
+
+
