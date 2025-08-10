@@ -33,8 +33,8 @@ class EmailRequest(BaseModel):
     email_attachments: Optional[List[str]] = None
     abvrs: Optional[str] = None
     forecast_data: Optional[Dict[str, Any]] = None
-    gender_bracket: Optional[str] = None
-    age_bracket: Optional[List[str]] = None
+    gender: Optional[str] = None
+    age: Optional[List[str]] = None
 
 class EmailResponse(BaseModel):
     status: str
@@ -101,8 +101,8 @@ async def generate_presentation_from_email(request: EmailRequest):
         title = model_output_json.get("title", "")
         # Create Google Slides presentation
         demographic_data = {
-            "Gender": request.gender_bracket,
-            "Age": request.age_bracket
+            "Gender": request.gender,
+            "Age": request.age
         }
         google_slides_url = get_copy_of_presentation(
             title, 
