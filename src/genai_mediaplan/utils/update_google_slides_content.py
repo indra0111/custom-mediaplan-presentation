@@ -111,7 +111,7 @@ def get_content_to_replace_in_slides(ppt_title, llm_response_json, audience_fore
             parts = title.split(" ")
             emoji = parts[0]
             text = " ".join(parts[1:])
-            persona_data[f"persona_{i+1}_title"] = f"{emoji}\n{text}"
+            persona_data[f"persona_{i+1}_title"] = f"{emoji}\n\n{text}"
         persona_data[f"persona_{i+1}_description"] = safe_get_desc(llm_response_json.get("personas", []), i)
         persona_data[f"persona_{i+1}_target_profiles"] = safe_get_target_profiles(llm_response_json.get("personas", []), i)
 
@@ -414,7 +414,7 @@ def get_persona_slide_index(data):
             break
     return (PERSONA_SLIDE_INDEX_4, PERSONA_SLIDE_INDEX_6) if desired_count == 4 else (PERSONA_SLIDE_INDEX_6, PERSONA_SLIDE_INDEX_4)
 
-def get_copy_of_presentation(ppt_title, llm_response_json, audience_forecast):
+def get_copy_of_presentation(ppt_title, llm_response_json, audience_forecast, demographic_data):
     copied_file = drive_service.files().copy(
         fileId=SOURCE_FILE_ID,
         body={
@@ -442,7 +442,7 @@ def get_copy_of_presentation(ppt_title, llm_response_json, audience_forecast):
     update_requests.extend(update_requests_definition)
     delete_requests.extend(delete_requests_definition)
     
-    update_charts_in_slides(copied_file_id, slides_service, copied_sheet_id, sheets_service, CHART_SLIDE_INDEX, None)
+    update_charts_in_slides(copied_file_id, slides_service, copied_sheet_id, sheets_service, CHART_SLIDE_INDEX, demographic_data)
     
     slides_added_count = update_forecast_for_geo(slides_service, copied_file_id, GEO_SLIDE_INDEX, audience_forecast)
     

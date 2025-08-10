@@ -1,3 +1,35 @@
+def process_demographic_data(demographic_data):
+    gender_data = {
+        "All": [["Male", 70],["Female", 30]],
+        "Male": [["Male", 100],["Female", 0]],
+        "Female": [["Male", 0],["Female", 100]]
+    }
+    age_proportions = {
+        "18-24": 15,
+        "25-34": 35,
+        "35-44": 30,
+        "45-54": 10,
+        "55+": 10
+    }
+    default_age_data = [["18-24", 15], ["25-34", 35], ["35-44", 30], ["45-54", 10], ["55+", 10]]
+    age_data = []
+    age_proportions_sum = 0
+    if (len(demographic_data["Age"]) == 1 and demographic_data["Age"][0] == "All") or (len(demographic_data["Age"]) == 0):
+        age_data = default_age_data
+    else:
+        for age_bracket in demographic_data["Age"]:
+            if age_bracket in age_proportions:
+                age_data.append([age_bracket, age_proportions[age_bracket]])
+                age_proportions_sum += age_proportions[age_bracket]
+                
+        for i in range(len(age_data)):
+            age_data[i][1] = age_data[i][1] * 100 / age_proportions_sum
+            
+    return {
+        "Gender": gender_data[demographic_data["Gender"] if demographic_data["Gender"] in gender_data else "All"],
+        "Age": age_data
+    }
+
 def get_chart_ids(copied_sheet_id, sheets_service):
     response = sheets_service.spreadsheets().get(
         spreadsheetId=copied_sheet_id,
@@ -73,6 +105,13 @@ def update_charts_preserving_position(copied_slide_id, slides_service, copied_sh
         print("⚠️ No charts replaced.")
         
 def update_chart_data_in_sheets(spreadsheet_id, sheets_service, chart_data):
+    
+    clear_ranges = [f"{sheet_name}!A2:B1000" for sheet_name in chart_data.keys()]
+    sheets_service.spreadsheets().values().batchClear(
+        spreadsheetId=spreadsheet_id,
+        body={"ranges": clear_ranges}
+    ).execute()
+    
     requests = []
 
     for sheet_name, values in chart_data.items():
@@ -99,10 +138,10 @@ def update_chart_data_in_sheets(spreadsheet_id, sheets_service, chart_data):
 
     print(f"✅ Updated data in {len(chart_data)} sheet(s): {list(chart_data.keys())}")
     
-def update_charts_in_slides(copied_slide_id, slides_service, copied_sheet_id, sheets_service, target_slide_index, chart_data=None):
+def update_charts_in_slides(copied_slide_id, slides_service, copied_sheet_id, sheets_service, target_slide_index, demographic_data):
+    processed_demographic_data = process_demographic_data(demographic_data)
+    update_chart_data_in_sheets(copied_sheet_id, sheets_service, processed_demographic_data)
     chart_ids_map = get_chart_ids(copied_sheet_id, sheets_service)
     update_charts_preserving_position(copied_slide_id, slides_service, copied_sheet_id, chart_ids_map, target_slide_index)
-    if chart_data:
-        update_chart_data_in_sheets(copied_sheet_id, sheets_service, chart_data)
     
     

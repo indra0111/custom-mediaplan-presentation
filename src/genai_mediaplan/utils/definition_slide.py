@@ -25,14 +25,30 @@ def get_forecast_number_in_format(audience_forecast):
 def get_alt_description_mappings(audience_forecast, definition):
     idx=1
     alt_data={}
+    coverage_map={
+        "TIL_All_Cluster_RNF": "COMPREHENSIVE NETWORK COVERAGE",
+        "TIL_All_Languages_RNF": "MULTILINGUAL REACH",
+        "TIL_TOI_Only_RNF": "PREMIUM ENGLISH",
+        "TIL_ET_And_TOI_RNF": "PREMIUM COMBO",
+        "TIL_ET_Only_RNF": "PREMIUM BUSINESS & INVESTMENT",
+        "TIL_NBT_Only_RNF": "HINDI MARKET",
+        "TIL_MT_Only_RNF": "MARATHI MARKET",
+        "TIL_VK_Only_RNF": "KANNADA MARKET",
+        "TIL_IAG_Only_RNF": "IAG MARKET",
+        "TIL_EIS_Only_RNF": "EISAMAY MARKET",
+        "TIL_Tamil_Only_RNF": "TAMIL MARKET",
+        "TIL_Telugu_Only_RNF": "TELUGU MARKET",
+        "TIL_Malayalam_Only_RNF": "MALAYALAM MARKET",
+    }
     for key, value in audience_forecast.items():
         title = value["title"]
         data=value["data"]
-        reach = f"{data['India']['user']}\nUser Reach (Reach fcap-1)"
-        impr = f"{data['India']['impr']}\nTargetable Impressions (Impressions fcap-3)"
+        reach = f"{data['India']['user']}\nUser Reach"
+        impr = f"{data['India']['impr']}\nTargetable Impressions"
         alt_data[f"preset_title_{idx}"] = title
         alt_data[f"user_{idx}"] = reach
         alt_data[f"impr_{idx}"] = impr
+        alt_data[f"coverage_{idx}"] = coverage_map[key]
         idx+=1
     alt_data["cohort_definition"]=definition
     return alt_data
