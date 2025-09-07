@@ -34,7 +34,7 @@ class EmailRequest(BaseModel):
     abvrs: Optional[str] = None
     forecast_data: Optional[Dict[str, Any]] = None
     gender: Optional[str] = None
-    age: Optional[List[str]] = None
+    age: Optional[str] = None
 
 class EmailResponse(BaseModel):
     status: str

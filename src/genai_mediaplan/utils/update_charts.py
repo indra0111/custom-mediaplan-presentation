@@ -13,17 +13,10 @@ def process_demographic_data(demographic_data):
     }
     default_age_data = [["18-24", 15], ["25-34", 35], ["35-44", 30], ["45-54", 10], ["55+", 10]]
     age_data = []
-    age_proportions_sum = 0
-    if (len(demographic_data["Age"]) == 1 and demographic_data["Age"][0] == "All") or (len(demographic_data["Age"]) == 0):
+    if (demographic_data["Age"] == "All"):
         age_data = default_age_data
     else:
-        for age_bracket in demographic_data["Age"]:
-            if age_bracket in age_proportions:
-                age_data.append([age_bracket, age_proportions[age_bracket]])
-                age_proportions_sum += age_proportions[age_bracket]
-                
-        for i in range(len(age_data)):
-            age_data[i][1] = age_data[i][1] * 100 / age_proportions_sum
+        age_data.append([demographic_data["Age"], 100])
             
     return {
         "Gender": gender_data[demographic_data["Gender"] if demographic_data["Gender"] in gender_data else "All"],
