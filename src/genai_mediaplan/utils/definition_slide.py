@@ -43,8 +43,8 @@ def get_alt_description_mappings(audience_forecast, definition):
     for key, value in audience_forecast.items():
         title = value["title"]
         data=value["data"]
-        reach = f"{data['India']['user']}\nUser Reach"
-        impr = f"{data['India']['impr']}\nTargetable Impressions"
+        reach = f"{data['Overall']['user']}\nUser Reach"
+        impr = f"{data['Overall']['impr']}\nTargetable Impressions"
         alt_data[f"preset_title_{idx}"] = title
         alt_data[f"user_{idx}"] = reach
         alt_data[f"impr_{idx}"] = impr
