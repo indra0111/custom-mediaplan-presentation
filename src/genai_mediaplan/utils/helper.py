@@ -47,17 +47,16 @@ def get_audience_data(abvrs):
     try:
         response = requests.post(url, data = abvrs)
         data = response.json()
-        result = {}
+        result = []
         for audience in data:
-            abvr = audience.get("abvr")
             name = audience.get("audience_name")
             description = audience.get("description")
-            if abvr and name and description:
-                result[abvr] = {
+            if name and description:
+                result.append({
                     "name": name,
                     "description": description
-                }
-            return result
+                })
+        return result
     except Exception as e:
         print(f"Error getting audience data: {e}")
-        return {}
+        return []
