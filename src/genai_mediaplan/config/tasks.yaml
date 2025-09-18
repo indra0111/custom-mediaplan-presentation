@@ -46,50 +46,97 @@ definition_task:
 
 data_signals_task:
   description: >
-    Based on the email subject '{email_subject}' and body content '{email_body}', identify and create 3 distinct categories of actionable business insights. Use the audience data '{audience_data}' to identify the relevant metrics and segments.
-    Each category must cover a different business dimension (e.g., performance metrics, strategic initiatives, market opportunities).
-    For each category, provide a descriptive title (max 40 chars, with emoji) and a list of 5 specific, high-value, actionable insights (max 60 chars each).
-    Each insight must be actionable and specific, not generic. Use a professional, client-facing tone.
-    Output only the JSON array, with no extra text or commentary.
-    Before submitting, ensure:
-      1) There are 3 categories, each with a unique title and 5 insights,
-      2) Titles start with an emoji and are under 40 characters,
-      3) Each insight is under 60 characters and actionable,
-      4) The output is a valid JSON array as per the example,
-      5) No extra text is included.
-      6) The title should strictly include only one emoji and that too should be its first character.
+    You are building a media-plan slide titled “Top Data Signals & Sources” for audiences derived from an email campaign.
+    Inputs:
+    email_subject = {email_subject}
+    email_body = {email_body}
+    audience_names = {audience_data}
+
+    How Inputs Are Used:
+    - email_subject & email_body: provide contextual clues about the theme (finance, auto, health, education, entertainment, etc.).
+    - audience_names: provide targeting context (e.g., “Young Investors”, “Tech Enthusiasts”, “Travel Planners”).
+
+    Clear Definitions (Guardrails):
+    1) Content Consumption Signals: Mid-funnel evaluation via editorial content (reviews, guides, comparisons). Exclude transactional flows or passive browsing.
+    2) Intent Signals: Direct observable transactional intent (ad clicks, subs, purchases). Exclude inference from reading alone.
+    3) Other Premium Signals: High-value actions (calculators, watchlists, event registrations, gated subs). Exclude passive content.
+
+    Role & Scope:
+    - Content Consumption Signals: Analyst selects consideration-driven editorial surfaces.
+    - Intent Signals: Extractor identifies observable transactional intent.
+    - Other Premium Signals: Analyst identifies explicit action-driven surfaces.
+
+    Selection Rules:
+    - Ground all bullets in context inferred from email_subject, email_body, and audience_names.
+    - Always use TIL editorial properties: TOI, ET, NBT, Indiatimes, ETimes.
+    - Embed inferred IAB Content/Product Taxonomy keywords (Tier-2/Tier-3 preferred).
+    - Rotate across signals for diversity (finance, health, auto, travel, tech, entertainment).
+    - Content Consumption = only guides, reviews, roundups.
+    - Intent Signals = only transactional flows with CTA text (‘Invest Now’, ‘Subscribe’, ‘Buy Now’).
+    - Other Premium Signals = calculators, tools, watchlists, subscriptions, events.
+
+    Quality & Style:
+    - Exactly 5 insights per category.
+    - Each description must be a single string under 60 characters.
+    - Natural prepositions (via, in, on, through).
+    - CTA text must appear inside single quotes.
+    - Vary verbs (exploring, comparing, subscribing, purchasing, registering).
+    - Always include at least one IAB taxonomy keyword.
+    - No abbreviations, no ALL CAPS, no brackets.
+
+    Output Instructions:
+    - Output only valid JSON. No prose or commentary.
+    - The JSON must have this exact structure:
+      {
+        "data_signals": [
+          {
+            "title": "Content Consumption Signals",
+            "data_signals": [ ...5 strings... ]
+          },
+          {
+            "title": "Intent Signals",
+            "data_signals": [ ...5 strings... ]
+          },
+          {
+            "title": "Other Premium Signals",
+            "data_signals": [ ...5 strings... ]
+          }
+        ]
+      }
+
   expected_output: >
     A json object in the following format:
     {
-    "data_signals": [
-        {
-          "title": "Business Insight Title",
-          "data_signals": ["Business Insight A", "Business Insight B", "Business Insight C", "Business Insight D", "Business Insight E"]
-        },
-        {
-          "title": "Business Insight Title2",
-          "data_signals": ["Business Insight F", "Business Insight G", "Business Insight H", "Business Insight I", "Business Insight J"]
-        },
-        {
-          "title": "Business Insight Title3",
-          "data_signals": ["Business Insight K", "Business Insight L", "Business Insight M", "Business Insight N", "Business Insight O"]
-        }
-      ]
-    }
-    example:
-      {
       "data_signals": [
         {
-          "title": "📊 Performance Metrics",
-          "data_signals": ["15% conversion rate improvement", "25% customer acquisition growth", "$2.5M revenue generation", "40% social media engagement", "3.2x paid advertising ROI"]
+          "title": "📚 Content Consumption Signals",
+          "data_signals": [
+            "string1",
+            "string2",
+            "string3",
+            "string4",
+            "string5"
+          ]
         },
         {
-          "title": "🎯 Strategic Initiatives",
-          "data_signals": ["Scale campaigns to new markets", "Optimize budget allocation", "Implement A/B testing", "Enhance creative assets", "Expand target audience reach"]
+          "title": "🎯 Intent Signals",
+          "data_signals": [
+            "string1",
+            "string2",
+            "string3",
+            "string4",
+            "string5"
+          ]
         },
         {
-          "title": "📈 Market Opportunities",
-          "data_signals": ["Email marketing optimization", "Social media expansion", "Paid advertising scaling", "Customer retention focus", "Cross-channel integration"]
+          "title": "💎 Other Premium Signals",
+          "data_signals": [
+            "string1",
+            "string2",
+            "string3",
+            "string4",
+            "string5"
+          ]
         }
       ]
     }
